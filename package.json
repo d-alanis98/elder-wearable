@@ -1,0 +1,27 @@
+{
+  "name": "elder-wearable",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start-geolocation": "nodemon --exec ts-node src/backend/Geolocation/app.ts",
+    "start-heart-rate": "nodemon --exec ts-node src/backend/HeartRate/app.ts",
+    "start-panic-alert": "nodemon --exec ts-node src/backend/PanicAlert/app.ts",
+    "start-all-services": "npm run start-gps && npm run start-heart-rate && npm run start-panic-alert"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^15.12.2",
+    "nodemon": "^2.0.7",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.3.2"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "dotenv": "^10.0.0",
+    "winston": "^3.3.3"
+  }
+}
