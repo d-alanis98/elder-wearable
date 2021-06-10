@@ -18,17 +18,22 @@ export default class LocationInterval {
     }
 
     public run = () => {
+        this.validateInterval();
         this.interval = setInterval(async () => {
             const location: Geolocation = await new GetLocation().run();
             await new SendLocation(
                 this.logger,
                 location
             ).run();
-        }, app.refreshInterval * 1000);
-
+        }, app.refreshInterval);
     }
 
     public stop = () => {
         this.interval && clearInterval(this.interval);
+    }
+
+    private validateInterval = () => {
+        if(app.refreshInterval < 60_000)
+            throw new Error('Interval not allowed');
     }
 }
