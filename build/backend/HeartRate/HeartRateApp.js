@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 //use cases
 const MeasureGetter_1 = __importDefault(require("../../application/HeartRate/application/MeasureGetter"));
+const SendHeartRate_1 = __importDefault(require("../../application/HeartRate/application/SendHeartRate"));
 //Base app
 const App_1 = __importDefault(require("../App"));
 class HeartRateApp extends App_1.default {
@@ -22,8 +23,10 @@ class HeartRateApp extends App_1.default {
         this.start = () => __awaiter(this, void 0, void 0, function* () {
             try {
                 //We execute the main location interval use case, to update the location every X seconds (60 by default)
-                const result = yield new MeasureGetter_1.default().run();
-                console.log(result);
+                const heartRateResult = yield new MeasureGetter_1.default().run();
+                if (!heartRateResult)
+                    throw new Error('Heart rate data not received');
+                yield new SendHeartRate_1.default(this.logger, heartRateResult).run();
             }
             catch (error) {
                 this.logger.error(error.message);

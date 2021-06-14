@@ -33,7 +33,6 @@ class MeassureGetter {
         });
         this.setMeasurementResult = () => __awaiter(this, void 0, void 0, function* () {
             const serializedData = yield this.executeHeartRateMonitorProcess();
-            console.log(serializedData);
             this.measurementResult = JSON.parse(serializedData);
             //We increase the attempts counter, which will help us to retry up to 3 times
             this.attempts++;
