@@ -12,24 +12,31 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-//Domain
 const HeartRate_1 = require("../domain/HeartRate");
 //Infrastructure
 const ChildProcess_1 = __importDefault(require("../../Shared/infrastructure/ChildProcess/ChildProcess"));
 const PromiseWithLEDOutput_1 = __importDefault(require("../../Shared/infrastructure/Promises/PromiseWithLEDOutput"));
 class MeassureGetter {
-    constructor() {
+    constructor(logger) {
         //Constants
         this.MAX_ATTEMPTS = 3;
         this.run = () => __awaiter(this, void 0, void 0, function* () {
-            yield this.setMeasurementResult();
-            if (this.isValidMeasurement())
-                return this.measurementResult;
-            //We retry up to 3 times
-            else if (this.attempts <= this.MAX_ATTEMPTS)
-                return yield this.run();
-            else
-                throw new Error('Error: Unable to get heart rate data. Please retry.');
+            return new PromiseWithLEDOutput_1.default()
+                .executeAsyncCallback(() => __awaiter(this, void 0, void 0, function* () {
+                try {
+                    yield this.setMeasurementResult();
+                    if (this.isValidMeasurement())
+                        return this.measurementResult;
+                    //We retry up to 3 times
+                    else if (this.attempts <= this.MAX_ATTEMPTS)
+                        return yield this.run();
+                    else
+                        throw new Error('Error: Unable to get heart rate data. Please retry.');
+                }
+                catch (error) {
+                    this.logger.error(error.message);
+                }
+            }));
         });
         this.setMeasurementResult = () => __awaiter(this, void 0, void 0, function* () {
             const serializedData = yield this.executeHeartRateMonitorProcess();
@@ -38,13 +45,11 @@ class MeassureGetter {
             this.attempts++;
         });
         this.executeHeartRateMonitorProcess = () => __awaiter(this, void 0, void 0, function* () {
-            return new PromiseWithLEDOutput_1.default()
-                .executeAsyncCallback(() => __awaiter(this, void 0, void 0, function* () {
-                return (yield new ChildProcess_1.default('python /home/pi/heart-rate-monitor/main.py').execute());
-            }));
+            return (yield new ChildProcess_1.default('python /home/pi/heart-rate-monitor/main.py').execute());
         });
         this.isValidMeasurement = () => (this.measurementResult.heartRate > 0 &&
             this.measurementResult.saturation > 0);
+        this.logger = logger;
         this.attempts = 0;
         this.measurementResult = HeartRate_1.emptyResult;
     }

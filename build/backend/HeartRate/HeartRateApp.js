@@ -22,19 +22,19 @@ class HeartRateApp extends App_1.default {
     constructor() {
         super(HeartRateApp.name);
         this.start = () => __awaiter(this, void 0, void 0, function* () {
-            try {
-                const pushButton = new PushButton_1.default(18);
-                pushButton.onPress(() => __awaiter(this, void 0, void 0, function* () {
+            const pushButton = new PushButton_1.default(18);
+            pushButton.onPress(() => __awaiter(this, void 0, void 0, function* () {
+                try {
                     //We execute the heart rate monitor service and send the data to the server
-                    const heartRateResult = yield new MeasureGetter_1.default().run();
+                    const heartRateResult = yield new MeasureGetter_1.default(this.logger).run();
                     if (!heartRateResult)
                         throw new Error('Heart rate data not received');
                     yield new SendHeartRate_1.default(this.logger, heartRateResult).run();
-                }));
-            }
-            catch (error) {
-                this.logger.error(error.message);
-            }
+                }
+                catch (error) {
+                    this.logger.error(error.message);
+                }
+            }));
         });
     }
 }
