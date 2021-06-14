@@ -3,7 +3,6 @@ import { emptyResult, HeartRateResult } from '../domain/HeartRate';
 //Infrastructure
 import CommandExecutor from '../../Shared/infrastructure/ChildProcess/ChildProcess';
 import PromiseWithLEDOutput from '../../Shared/infrastructure/Promises/PromiseWithLEDOutput';
-
 export default class MeassureGetter {
     //Constants
     private readonly MAX_ATTEMPTS: number = 3;
@@ -15,6 +14,7 @@ export default class MeassureGetter {
         this.attempts = 0;
         this.measurementResult = emptyResult;
     }
+
 
     public run = async (): Promise<HeartRateResult | undefined> => {
         await this.setMeasurementResult();

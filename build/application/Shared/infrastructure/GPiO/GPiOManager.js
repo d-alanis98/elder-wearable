@@ -11,8 +11,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const onoff_1 = require("onoff");
 class GPiOManager extends onoff_1.Gpio {
-    constructor(pin, pinMode) {
-        super(pin, pinMode);
+    constructor(pin, pinMode, edgeMode) {
+        super(pin, pinMode, edgeMode);
         this.turnOn = () => __awaiter(this, void 0, void 0, function* () {
             yield this.write(1);
         });
