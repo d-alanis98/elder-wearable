@@ -8,14 +8,14 @@ export default class StartMeasuring {
         this.led = new GPiOManager(17, 'out');
     }
 
-    public start = async () => {
+    public start = () => {
         this.blinkLed();
     }
 
-    private blinkLed = async () => {
-        setInterval(async () => { 
+    private blinkLed = () => {
+        setInterval(() => { 
             console.log('Blinking')
-            await this.led.isOn()
+            this.led.isOn()
                 ? this.led.turnOff()
                 : this.led.turnOn;
         }, 1000);
