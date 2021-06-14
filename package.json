@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start-geolocation": "nodemon build/backend/Geolocation/app.js",
-    "start-heart-rate": "nodemon build/backend/HeartRate/app.js",
-    "start-panic-alert": "nodemon build/backend/PanicAlert/app.js",
+    "start-geolocation": "node build/backend/Geolocation/app.js",
+    "start-heart-rate": "node build/backend/HeartRate/app.js",
+    "start-panic-alert": "node build/backend/PanicAlert/app.js",
     "start-all-services": "npm run start-gps && npm run start-heart-rate && npm run start-panic-alert"
   },
   "keywords": [],
