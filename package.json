@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx tsc",
     "start-geolocation": "node build/backend/Geolocation/app.js",
     "start-heart-rate": "node build/backend/HeartRate/app.js",
     "start-panic-alert": "node build/backend/PanicAlert/app.js",
