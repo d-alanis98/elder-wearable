@@ -15,14 +15,13 @@ export default class StartMeasuring {
 
     private testPromiseWithLEDOutput = () => {
         setInterval(() => {
-            const promise = new PromiseWithLEDOutput((resolve, reject) => {
-                setTimeout(() => {
-                    const fail = Math.round(Math.random());
-                    fail ? reject() : resolve(null)
-                }, 200)
-            })
-            promise.then(() => console.log('Turning On Green LED'))
-            promise.catch(() => console.log('Turning On Red LED'))
+            const promise = new PromiseWithLEDOutput();
+            promise.executeAsyncCallback(async () => {
+                await this.timeout(750);
+                console.log('Executed')
+            });
         }, 500);
     }
+
+    private timeout = (time: number) => new Promise(resolve => setTimeout(resolve, time));
 }
