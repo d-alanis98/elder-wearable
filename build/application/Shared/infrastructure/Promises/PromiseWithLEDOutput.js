@@ -67,3 +67,4 @@ class PromiseWithLEDOutput {
     }
 }
 exports.default = PromiseWithLEDOutput;
+PromiseWithLEDOutput.timeout = (time) => new Promise(resolve => setTimeout(resolve, time));
