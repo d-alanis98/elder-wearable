@@ -4,6 +4,7 @@ import SendPanicAlert from '../../application/PanicAlert/application/SendPanicAl
 import GetLocation from '../../application/Geolocation/application/GetLocation';
 import PushButton from '../../application/Shared/infrastructure/GPiO/components/PushButton';
 import App from '../App';
+import PromiseWithLEDOutput from '../../application/Shared/infrastructure/Promises/PromiseWithLEDOutput';
 
 
 export default class PanicAlertApp extends App {
@@ -15,13 +16,16 @@ export default class PanicAlertApp extends App {
         const pushButton = new PushButton(18);
         pushButton.onPress(async () => {
             try {
-                //We execute the location service
-                const location = await new GetLocation().run();
-                //We send the panic alert
-                await new SendPanicAlert(
-                    this.logger,
-                    location
-                ).run();
+                new PromiseWithLEDOutput()
+                    .executeAsyncCallback(async () => {
+                    //We execute the location service
+                    const location = await new GetLocation().run();
+                    //We send the panic alert
+                    await new SendPanicAlert(
+                        this.logger,
+                        location
+                    ).run();
+                });
             } catch(error) {
                 this.logger.error(error.message);
             }

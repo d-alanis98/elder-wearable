@@ -18,6 +18,7 @@ const SendPanicAlert_1 = __importDefault(require("../../application/PanicAlert/a
 const GetLocation_1 = __importDefault(require("../../application/Geolocation/application/GetLocation"));
 const PushButton_1 = __importDefault(require("../../application/Shared/infrastructure/GPiO/components/PushButton"));
 const App_1 = __importDefault(require("../App"));
+const PromiseWithLEDOutput_1 = __importDefault(require("../../application/Shared/infrastructure/Promises/PromiseWithLEDOutput"));
 class PanicAlertApp extends App_1.default {
     constructor() {
         super(PanicAlertApp.name);
@@ -25,10 +26,13 @@ class PanicAlertApp extends App_1.default {
             const pushButton = new PushButton_1.default(18);
             pushButton.onPress(() => __awaiter(this, void 0, void 0, function* () {
                 try {
-                    //We execute the location service
-                    const location = yield new GetLocation_1.default().run();
-                    //We send the panic alert
-                    yield new SendPanicAlert_1.default(this.logger, location).run();
+                    new PromiseWithLEDOutput_1.default()
+                        .executeAsyncCallback(() => __awaiter(this, void 0, void 0, function* () {
+                        //We execute the location service
+                        const location = yield new GetLocation_1.default().run();
+                        //We send the panic alert
+                        yield new SendPanicAlert_1.default(this.logger, location).run();
+                    }));
                 }
                 catch (error) {
                     this.logger.error(error.message);
