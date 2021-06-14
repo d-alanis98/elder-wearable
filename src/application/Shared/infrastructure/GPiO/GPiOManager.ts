@@ -1,4 +1,4 @@
-import { Gpio, Direction, Edge } from 'onoff';
+import { Gpio, Direction, Edge, Options } from 'onoff';
 
 export default class GPiOManager extends Gpio {
     //Constants
@@ -7,9 +7,10 @@ export default class GPiOManager extends Gpio {
     constructor(
         pin: number,
         pinMode: Direction,
-        edgeMode?: Edge
+        edgeMode?: Edge,
+        options?: Options
     ) {
-        super(pin, pinMode, edgeMode);
+        super(pin, pinMode, edgeMode, options);
     }
 
     turnOn = async () => {

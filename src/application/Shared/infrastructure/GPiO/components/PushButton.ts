@@ -3,7 +3,9 @@ import GPiOManager from '../GPiOManager';
 
 export default class PushButton extends GPiOManager {
     constructor(pin: number) {
-        super(pin, 'in', 'both');
+        super(pin, 'in', 'falling', {
+            debounceTimeout: 50
+        });
     }
 
     onPress = (callback: Function | AsyncHandler) => {
