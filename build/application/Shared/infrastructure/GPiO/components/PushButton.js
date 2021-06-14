@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const GPiOManager_1 = __importDefault(require("../GPiOManager"));
 class PushButton extends GPiOManager_1.default {
     constructor(pin) {
-        super(pin, 'in', 'falling', {
+        super(pin, 'in', 'both', {
             debounceTimeout: 50
         });
         this.onPress = (callback) => {

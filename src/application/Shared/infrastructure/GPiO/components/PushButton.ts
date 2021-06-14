@@ -3,7 +3,7 @@ import GPiOManager from '../GPiOManager';
 
 export default class PushButton extends GPiOManager {
     constructor(pin: number) {
-        super(pin, 'in', 'falling', {
+        super(pin, 'in', 'both', {
             debounceTimeout: 50
         });
     }
