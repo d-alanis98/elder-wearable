@@ -36,6 +36,7 @@ class HeartRateApp extends App_1.default {
                 }
             }));
         });
+        this.logger.info(`${HeartRateApp.name} service started`);
     }
 }
 exports.default = HeartRateApp;

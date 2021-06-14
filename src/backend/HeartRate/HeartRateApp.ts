@@ -9,6 +9,7 @@ import App from '../App';
 export default class HeartRateApp extends App {
     constructor() {
         super(HeartRateApp.name);
+        this.logger.info(`${HeartRateApp.name} service started`);
     }
 
     public start = async () => { 

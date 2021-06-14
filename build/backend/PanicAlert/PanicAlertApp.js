@@ -39,6 +39,7 @@ class PanicAlertApp extends App_1.default {
                 }
             }));
         });
+        this.logger.info(`${PanicAlertApp.name} service started`);
     }
 }
 exports.default = PanicAlertApp;

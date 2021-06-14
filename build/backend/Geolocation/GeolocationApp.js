@@ -28,6 +28,7 @@ class GeolocationApp extends App_1.default {
                 this.logger.error(error.message);
             }
         });
+        this.logger.info(`${GeolocationApp.name} service started`);
     }
 }
 exports.default = GeolocationApp;

@@ -10,6 +10,7 @@ import PromiseWithLEDOutput from '../../application/Shared/infrastructure/Promis
 export default class PanicAlertApp extends App {
     constructor() {
         super(PanicAlertApp.name);
+        this.logger.info(`${PanicAlertApp.name} service started`);
     }
 
     public start = async () => {

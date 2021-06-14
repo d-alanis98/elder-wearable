@@ -7,6 +7,7 @@ import App from '../App';
 export default class GeolocationApp extends App {
     constructor() {
         super(GeolocationApp.name);
+        this.logger.info(`${GeolocationApp.name} service started`);
     }
 
     public start = async () => {
