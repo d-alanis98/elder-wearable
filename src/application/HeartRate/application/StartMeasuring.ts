@@ -13,8 +13,11 @@ export default class StartMeasuring {
     }
 
     private blinkLed = async () => {
-        await this.led.isOn()
-            ? this.led.turnOff()
-            : this.led.turnOn;
+        setInterval(async () => { 
+            console.log('Blinking')
+            await this.led.isOn()
+                ? this.led.turnOff()
+                : this.led.turnOn;
+        }, 1000);
     }
 }
