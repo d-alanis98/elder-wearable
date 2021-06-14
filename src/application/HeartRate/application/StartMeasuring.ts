@@ -17,7 +17,7 @@ export default class StartMeasuring {
             console.log('Blinking')
             this.led.isOnSync()
                 ? this.led.turnOff()
-                : this.led.turnOn;
+                : this.led.turnOn();
         }, 1000);
     }
 }
