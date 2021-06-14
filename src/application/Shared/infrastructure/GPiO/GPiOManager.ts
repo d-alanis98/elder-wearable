@@ -12,20 +12,14 @@ export default class GPiOManager extends Gpio {
     }
 
     turnOn = () => {
-        console.log('turning on')
         this.writeSync(1);
     }
 
     turnOff = () => {
-        console.log('Turning off')
         this.writeSync(0);
     }
 
-    isOn = async () => (
-        await this.read() === 1
-    );
-
-    isOnSync = () => this.readSync() === 1;
+    isOn = () => this.readSync() === 1;
 
     turnOnByTime = (time?: number) => {
         //We normalize the time

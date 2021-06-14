@@ -17,10 +17,10 @@ export default class StartMeasuring {
         setInterval(() => {
             const promise = new PromiseWithLEDOutput();
             promise.executeAsyncCallback(async () => {
-                await this.timeout(750);
+                await this.timeout(500);
                 console.log('Executed')
             });
-        }, 500);
+        }, 1000);
     }
 
     private timeout = (time: number) => new Promise(resolve => setTimeout(resolve, time));
