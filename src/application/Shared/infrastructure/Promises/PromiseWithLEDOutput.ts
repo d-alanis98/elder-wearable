@@ -45,7 +45,6 @@ export default class PromiseWithLEDOutput<T = any> {
             //We return the result
             return result;
         } catch(error) {
-            console.log('Turning on Failure LED')
             //We indicate the failure
             this.indicateFailure();
             return Promise.reject(error);

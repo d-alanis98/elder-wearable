@@ -31,6 +31,7 @@ export default class MeassureGetter {
             else throw new Error('Error: Unable to get heart rate data. Please retry.')
         } catch(error) {
             this.logger.error(error.message);
+            return Promise.reject(error.message);
         }
     });
 

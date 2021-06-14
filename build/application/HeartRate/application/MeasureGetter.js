@@ -35,6 +35,7 @@ class MeassureGetter {
                 }
                 catch (error) {
                     this.logger.error(error.message);
+                    return Promise.reject(error.message);
                 }
             }));
         });
