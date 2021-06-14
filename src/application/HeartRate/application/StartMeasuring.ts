@@ -5,7 +5,7 @@ export default class StartMeasuring {
     private readonly led: GPiOManager;
 
     constructor() {
-        this.led = new GPiOManager(2, 'out');
+        this.led = new GPiOManager(17, 'out');
     }
 
     public start = async () => {

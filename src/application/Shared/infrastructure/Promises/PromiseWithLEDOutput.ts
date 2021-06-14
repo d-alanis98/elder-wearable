@@ -13,9 +13,9 @@ export default class PromiseWithLEDOutput<T = any> {
         if(executor)
             this.promise = new Promise<T>(executor);
         //We set the LEDS
-        this.successLed = new GPiOManager(2, 'out');
-        this.pendingLed = new GPiOManager(3, 'out');
-        this.failureLed = new GPiOManager(4, 'out');
+        this.successLed = new GPiOManager(17, 'out');
+        this.pendingLed = new GPiOManager(27, 'out');
+        this.failureLed = new GPiOManager(22, 'out');
         //We start with all of the off
         this.turnAllOff();
         //We turn on the pending LED
