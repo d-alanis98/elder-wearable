@@ -27,7 +27,7 @@ class MeassureGetter {
                 return this.measurementResult;
             //We retry up to 3 times
             else if (this.attempts <= this.MAX_ATTEMPTS)
-                yield this.run();
+                return yield this.run();
             else
                 throw new Error('Error: Unable to get heart rate data. Please retry.');
         });

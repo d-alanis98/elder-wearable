@@ -16,19 +16,18 @@ export default class MeassureGetter {
         this.measurementResult = emptyResult;
     }
 
-    public run = async () => {
+    public run = async (): Promise<HeartRateResult | undefined> => {
         await this.setMeasurementResult();
         if(this.isValidMeasurement())
             return this.measurementResult;
         //We retry up to 3 times
         else if(this.attempts <= this.MAX_ATTEMPTS)
-            await this.run();
+            return await this.run();
         else throw new Error('Error: Unable to get heart rate data. Please retry.')
     }
 
     private setMeasurementResult = async () => {
         const serializedData = await this.executeHeartRateMonitorProcess();
-        console.log(serializedData);
         this.measurementResult = JSON.parse(serializedData);
         //We increase the attempts counter, which will help us to retry up to 3 times
         this.attempts++;
