@@ -15,7 +15,7 @@ export default class StartMeasuring {
     private blinkLed = () => {
         setInterval(() => { 
             console.log('Blinking')
-            this.led.isOn()
+            this.led.isOnSync()
                 ? this.led.turnOff()
                 : this.led.turnOn;
         }, 1000);
