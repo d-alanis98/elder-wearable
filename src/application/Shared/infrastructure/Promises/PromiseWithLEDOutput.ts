@@ -51,6 +51,8 @@ export default class PromiseWithLEDOutput<T = any> {
         }
     }
 
+    static timeout = (time: number) => new Promise(resolve => setTimeout(resolve, time));
+
     //Internal helpers
 
     private indicateFailure = () => {
