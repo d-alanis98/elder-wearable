@@ -1,4 +1,5 @@
 import GPiOManager from '../../Shared/infrastructure/GPiO/GPiOManager'
+import PromiseWithLEDOutput from '../../Shared/infrastructure/Promises/PromiseWithLEDOutput';
 
 
 export default class StartMeasuring {
@@ -9,15 +10,19 @@ export default class StartMeasuring {
     }
 
     public start = () => {
-        this.blinkLed();
+        this.testPromiseWithLEDOutput();
     }
 
-    private blinkLed = () => {
-        setInterval(() => { 
-            console.log('Blinking')
-            this.led.isOnSync()
-                ? this.led.turnOff()
-                : this.led.turnOn();
-        }, 1000);
+    private testPromiseWithLEDOutput = () => {
+        setInterval(() => {
+            const promise = new PromiseWithLEDOutput((resolve, reject) => {
+                setTimeout(() => {
+                    const fail = Math.round(Math.random());
+                    fail ? reject() : resolve(null)
+                }, 200)
+            })
+            promise.then(() => console.log('Turning On Green LED'))
+            promise.catch(() => console.log('Turning On Red LED'))
+        }, 500);
     }
 }
