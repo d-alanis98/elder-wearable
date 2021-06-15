@@ -22,9 +22,16 @@ class SendPanicAlert {
     constructor(logger, location) {
         this.run = () => __awaiter(this, void 0, void 0, function* () {
             const formData = yield this.getFormData();
-            yield axios_1.default.post(`${app_1.default.serverUrl}/iot/device/data`, formData, {
-                headers: Object.assign(Object.assign({}, formData.getHeaders()), { Authentication: `Bearer ${app_1.default.authToken}` })
-            });
+            try {
+                const response = yield axios_1.default.post(`${app_1.default.serverUrl}/iot/device/data`, formData, {
+                    headers: Object.assign(Object.assign({}, formData.getHeaders()), { Authorization: `Bearer ${app_1.default.authToken}` })
+                });
+                const deviceDataCreated = response.data;
+                this.logger.info(`[${deviceDataCreated.key}] data sent successfully.`);
+            }
+            catch (error) {
+                this.logger.error(error.message);
+            }
         });
         this.getAudio = () => __awaiter(this, void 0, void 0, function* () {
             return (yield promises_1.readFile('/home/pi/.tmp/sample.wav'));

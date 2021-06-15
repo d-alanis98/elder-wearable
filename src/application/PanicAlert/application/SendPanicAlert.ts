@@ -26,17 +26,22 @@ export default class SendPanicAlert {
 
     public run = async () => {
         const formData = await this.getFormData();
-        
-        await axios.post(
-            `${ app.serverUrl }/iot/device/data`,
-            formData,
-            { 
-                headers: {
-                    ...formData.getHeaders(),
-                    Authentication: `Bearer ${ app.authToken }`,
-                } 
-            }
-        );
+        try {
+            const response = await axios.post(
+                `${ app.serverUrl }/iot/device/data`,
+                formData,
+                { 
+                    headers: {
+                        ...formData.getHeaders(),
+                        Authorization: `Bearer ${ app.authToken }`,
+                    } 
+                }
+            );
+            const deviceDataCreated = response.data;
+            this.logger.info(`[${ deviceDataCreated.key }] data sent successfully.`);
+        } catch(error) {
+            this.logger.error(error.message);
+        }
     }
 
     private getAudio = async (): Promise<Buffer> => (
