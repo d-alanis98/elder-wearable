@@ -40,18 +40,14 @@ export default class SendPanicAlert {
         await readFile('/home/pi/.tmp/sample.wav')
     )
 
-    private getLocationInBlob = () => {
-        const serialized = JSON.stringify(
-            this.panicAlert.toPrimitives().location
-        );
-        return new Blob([serialized], {
-            type: 'application/json'
-        });
-    }
+    private getSerializedLocation = () => JSON.stringify(
+        this.panicAlert.toPrimitives().location
+    );
+
 
     private getFormData = async () => {
         const formData = new FormData();
-        formData.append('location', this.getLocationInBlob());
+        formData.append('location', this.getSerializedLocation());
         formData.append('audioFile', await this.getAudio(), 'audio.wav');
         console.log(formData)
         return formData;

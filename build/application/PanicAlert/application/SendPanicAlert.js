@@ -30,15 +30,10 @@ class SendPanicAlert {
         this.getAudio = () => __awaiter(this, void 0, void 0, function* () {
             return (yield promises_1.readFile('/home/pi/.tmp/sample.wav'));
         });
-        this.getLocationInBlob = () => {
-            const serialized = JSON.stringify(this.panicAlert.toPrimitives().location);
-            return new Blob([serialized], {
-                type: 'application/json'
-            });
-        };
+        this.getSerializedLocation = () => JSON.stringify(this.panicAlert.toPrimitives().location);
         this.getFormData = () => __awaiter(this, void 0, void 0, function* () {
             const formData = new form_data_1.default();
-            formData.append('location', this.getLocationInBlob());
+            formData.append('location', this.getSerializedLocation());
             formData.append('audioFile', yield this.getAudio(), 'audio.wav');
             console.log(formData);
             return formData;
