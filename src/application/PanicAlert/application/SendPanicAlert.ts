@@ -9,6 +9,7 @@ import Logger from '../../Shared/domain/Logger/Logger';
 import IoTDeviceDataAPI from '../../Shared/infrastructure/Requests/IoTDeviceDataAPI';
 import axios from 'axios';
 import app from '../../../configuration/app';
+import CommandExecutor from '../../Shared/infrastructure/ChildProcess/ChildProcess';
 
 
 export default class SendPanicAlert {
@@ -38,6 +39,9 @@ export default class SendPanicAlert {
                 }
             );
             const deviceDataCreated = response.data;
+            //We delete the audio
+            await this.deleteTempAudio();
+            //We log the success state
             this.logger.info(`[${ deviceDataCreated.key }] data sent successfully.`);
         } catch(error) {
             this.logger.error(error.message);
@@ -59,5 +63,9 @@ export default class SendPanicAlert {
         formData.append('value', this.getSerializedLocation());
         formData.append('audioFile', await this.getAudio(), 'audio.wav');
         return formData;
+    }
+
+    private deleteTempAudio = async () => {
+        await new CommandExecutor('rm /home/pi/.tmp/temp.wav').execute();
     }
 }

@@ -21,7 +21,7 @@ class PanicAudioRecorder {
         this.executeRecording = () => __awaiter(this, void 0, void 0, function* () {
             try {
                 this.logger.info('Recording audio');
-                yield new ChildProcess_1.default('arecord -d 5 -f cd /home/pi/.tmp/temp.wav')
+                yield new ChildProcess_1.default('arecord -d 7 -f cd /home/pi/.tmp/temp.wav')
                     .execute();
                 this.logger.info('Audio recorded');
             }

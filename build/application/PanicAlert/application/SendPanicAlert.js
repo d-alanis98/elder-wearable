@@ -18,6 +18,7 @@ const promises_1 = require("fs/promises");
 const PanicAlert_1 = __importDefault(require("../domain/PanicAlert"));
 const axios_1 = __importDefault(require("axios"));
 const app_1 = __importDefault(require("../../../configuration/app"));
+const ChildProcess_1 = __importDefault(require("../../Shared/infrastructure/ChildProcess/ChildProcess"));
 class SendPanicAlert {
     constructor(logger, location) {
         this.run = () => __awaiter(this, void 0, void 0, function* () {
@@ -27,6 +28,9 @@ class SendPanicAlert {
                     headers: Object.assign(Object.assign({}, formData.getHeaders()), { Authorization: `Bearer ${app_1.default.authToken}` })
                 });
                 const deviceDataCreated = response.data;
+                //We delete the audio
+                yield this.deleteTempAudio();
+                //We log the success state
                 this.logger.info(`[${deviceDataCreated.key}] data sent successfully.`);
             }
             catch (error) {
@@ -43,6 +47,9 @@ class SendPanicAlert {
             formData.append('value', this.getSerializedLocation());
             formData.append('audioFile', yield this.getAudio(), 'audio.wav');
             return formData;
+        });
+        this.deleteTempAudio = () => __awaiter(this, void 0, void 0, function* () {
+            yield new ChildProcess_1.default('rm /home/pi/.tmp/temp.wav').execute();
         });
         this.logger = logger;
         //We create the panic alert
