@@ -24,7 +24,6 @@ export default class SendPanicAlert {
 
     public run = async () => {
         const formData = await this.getFormData();
-        console.log('Making request')
         await new IoTDeviceDataAPI(this.logger).postData(
             'PanicAlert',
             formData,
@@ -49,7 +48,6 @@ export default class SendPanicAlert {
         const formData = new FormData();
         formData.append('location', this.getSerializedLocation());
         formData.append('audioFile', await this.getAudio(), 'audio.wav');
-        console.log(formData)
         return formData;
     }
 }
