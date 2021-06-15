@@ -26,8 +26,9 @@ export default class SendPanicAlert {
 
     public run = async () => {
         const formData = await this.getFormData();
+        
         await axios.post(
-            '/iot/device/data',
+            `http://${ app.serverUrl }/iot/device/data`,
             formData,
             { 
                 headers: {

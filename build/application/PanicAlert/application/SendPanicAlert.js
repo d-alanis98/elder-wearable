@@ -22,7 +22,7 @@ class SendPanicAlert {
     constructor(logger, location) {
         this.run = () => __awaiter(this, void 0, void 0, function* () {
             const formData = yield this.getFormData();
-            yield axios_1.default.post('/iot/device/data', formData, {
+            yield axios_1.default.post(`http://${app_1.default.serverUrl}/iot/device/data`, formData, {
                 headers: Object.assign(Object.assign({}, formData.getHeaders()), { Authentication: `Bearer ${app_1.default.authToken}` })
             });
         });
