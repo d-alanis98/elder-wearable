@@ -21,11 +21,13 @@ class LocationInterval {
     constructor(logger) {
         this.run = () => {
             this.validateInterval();
-            this.interval = setInterval(() => __awaiter(this, void 0, void 0, function* () {
-                const location = yield new GetLocation_1.default().run();
-                yield new SendLocation_1.default(this.logger, location).run();
-            }), app_1.default.refreshInterval);
+            this.sendLocation();
+            this.interval = setInterval(this.sendLocation, app_1.default.refreshInterval);
         };
+        this.sendLocation = () => __awaiter(this, void 0, void 0, function* () {
+            const location = yield new GetLocation_1.default().run();
+            yield new SendLocation_1.default(this.logger, location).run();
+        });
         this.stop = () => {
             this.interval && clearInterval(this.interval);
         };

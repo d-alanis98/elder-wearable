@@ -19,13 +19,19 @@ export default class LocationInterval {
 
     public run = () => {
         this.validateInterval();
-        this.interval = setInterval(async () => {
-            const location: Geolocation = await new GetLocation().run();
-            await new SendLocation(
-                this.logger,
-                location
-            ).run();
-        }, app.refreshInterval);
+        this.sendLocation();
+        this.interval = setInterval(
+            this.sendLocation,
+            app.refreshInterval
+        );
+    }
+
+    private sendLocation = async () => {
+        const location: Geolocation = await new GetLocation().run();
+        await new SendLocation(
+            this.logger,
+            location
+        ).run();
     }
 
     public stop = () => {

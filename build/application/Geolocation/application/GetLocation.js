@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
+const app_1 = __importDefault(require("../../../configuration/app"));
 //Domain
 const Geolocation_1 = __importDefault(require("../domain/Geolocation"));
 class GetLocation {
@@ -22,9 +23,9 @@ class GetLocation {
             return geolocation;
         });
         this.getIPLocation = () => __awaiter(this, void 0, void 0, function* () {
-            const response = yield axios_1.default.get('https://ipinfo.io/json');
-            const { loc: locationString } = response.data;
-            return Geolocation_1.default.fromString(locationString);
+            const response = yield axios_1.default.get(`http://api.ipstack.com/check?access_key=${app_1.default.locationApiKey}`);
+            const { latitude, longitude } = response.data;
+            return new Geolocation_1.default(latitude, longitude);
         });
     }
 }
