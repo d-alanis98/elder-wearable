@@ -23,7 +23,9 @@ export default class PanicAlertApp extends App {
                     //We execute the location service
                     const location = await new GetLocation().run();
                     //We record the audio
-                    await new PanicAudioRecorder().run();
+                    await new PanicAudioRecorder(
+                        this.logger
+                    ).run();
                     //We send the panic alert
                     await new SendPanicAlert(
                         this.logger,

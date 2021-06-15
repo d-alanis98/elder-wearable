@@ -14,14 +14,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const ChildProcess_1 = __importDefault(require("../../Shared/infrastructure/ChildProcess/ChildProcess"));
 class PanicAudioRecorder {
-    constructor() {
+    constructor(logger) {
         this.run = () => __awaiter(this, void 0, void 0, function* () {
             yield this.executeRecording();
         });
         this.executeRecording = () => __awaiter(this, void 0, void 0, function* () {
+            this.logger.info('Recording audio');
             yield new ChildProcess_1.default('arecord -d 5 -f cd .tmp/temp.wav')
                 .execute();
+            this.logger.info('Audio recorded');
         });
+        this.logger = logger;
     }
 }
 exports.default = PanicAudioRecorder;
