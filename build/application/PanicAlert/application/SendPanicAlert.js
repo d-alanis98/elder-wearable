@@ -38,7 +38,7 @@ class SendPanicAlert {
             }
         });
         this.getAudio = () => __awaiter(this, void 0, void 0, function* () {
-            return (yield promises_1.readFile('/home/pi/.tmp/sample.wav'));
+            return (yield promises_1.readFile('/home/pi/.tmp/temp.wav'));
         });
         this.getSerializedLocation = () => JSON.stringify(this.panicAlert.toPrimitives());
         this.getFormData = () => __awaiter(this, void 0, void 0, function* () {

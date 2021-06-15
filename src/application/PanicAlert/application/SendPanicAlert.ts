@@ -49,7 +49,7 @@ export default class SendPanicAlert {
     }
 
     private getAudio = async (): Promise<Buffer> => (
-        await readFile('/home/pi/.tmp/sample.wav')
+        await readFile('/home/pi/.tmp/temp.wav')
     )
 
     private getSerializedLocation = () => JSON.stringify(
