@@ -22,6 +22,7 @@ class SendPanicAlert {
     constructor(logger, location) {
         this.run = () => __awaiter(this, void 0, void 0, function* () {
             const formData = yield this.getFormData();
+            console.log('Making request');
             yield new IoTDeviceDataAPI_1.default(this.logger).postData('PanicAlert', formData, {
                 headers: Object.assign({}, formData.getHeaders())
             });
@@ -39,6 +40,7 @@ class SendPanicAlert {
             const formData = new form_data_1.default();
             formData.append('location', this.getLocationInBlob());
             formData.append('audioFile', yield this.getAudio(), 'audio.wav');
+            console.log(formData);
             return formData;
         });
         this.logger = logger;
