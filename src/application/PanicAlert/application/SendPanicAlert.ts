@@ -7,6 +7,8 @@ import Geolocation from '../../Geolocation/domain/Geolocation';
 import Logger from '../../Shared/domain/Logger/Logger';
 //Infrastructure
 import IoTDeviceDataAPI from '../../Shared/infrastructure/Requests/IoTDeviceDataAPI';
+import axios from 'axios';
+import app from '../../../configuration/app';
 
 
 export default class SendPanicAlert {
@@ -24,12 +26,13 @@ export default class SendPanicAlert {
 
     public run = async () => {
         const formData = await this.getFormData();
-        await new IoTDeviceDataAPI(this.logger).postData(
-            'PanicAlert',
+        await axios.post(
+            '/iot/device/data',
             formData,
             { 
                 headers: {
                     ...formData.getHeaders(),
+                    Authentication: `Bearer ${ app.authToken }`,
                 } 
             }
         );
@@ -40,13 +43,14 @@ export default class SendPanicAlert {
     )
 
     private getSerializedLocation = () => JSON.stringify(
-        this.panicAlert.toPrimitives().location
+        this.panicAlert.toPrimitives()
     );
 
 
     private getFormData = async () => {
         const formData = new FormData();
-        formData.append('location', this.getSerializedLocation());
+        formData.append('key', 'PanicAlert');
+        formData.append('value', this.getSerializedLocation());
         formData.append('audioFile', await this.getAudio(), 'audio.wav');
         return formData;
     }

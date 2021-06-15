@@ -16,23 +16,24 @@ const form_data_1 = __importDefault(require("form-data"));
 const promises_1 = require("fs/promises");
 //Domain
 const PanicAlert_1 = __importDefault(require("../domain/PanicAlert"));
-//Infrastructure
-const IoTDeviceDataAPI_1 = __importDefault(require("../../Shared/infrastructure/Requests/IoTDeviceDataAPI"));
+const axios_1 = __importDefault(require("axios"));
+const app_1 = __importDefault(require("../../../configuration/app"));
 class SendPanicAlert {
     constructor(logger, location) {
         this.run = () => __awaiter(this, void 0, void 0, function* () {
             const formData = yield this.getFormData();
-            yield new IoTDeviceDataAPI_1.default(this.logger).postData('PanicAlert', formData, {
-                headers: Object.assign({}, formData.getHeaders())
+            yield axios_1.default.post('/iot/device/data', formData, {
+                headers: Object.assign(Object.assign({}, formData.getHeaders()), { Authentication: `Bearer ${app_1.default.authToken}` })
             });
         });
         this.getAudio = () => __awaiter(this, void 0, void 0, function* () {
             return (yield promises_1.readFile('/home/pi/.tmp/sample.wav'));
         });
-        this.getSerializedLocation = () => JSON.stringify(this.panicAlert.toPrimitives().location);
+        this.getSerializedLocation = () => JSON.stringify(this.panicAlert.toPrimitives());
         this.getFormData = () => __awaiter(this, void 0, void 0, function* () {
             const formData = new form_data_1.default();
-            formData.append('location', this.getSerializedLocation());
+            formData.append('key', 'PanicAlert');
+            formData.append('value', this.getSerializedLocation());
             formData.append('audioFile', yield this.getAudio(), 'audio.wav');
             return formData;
         });
