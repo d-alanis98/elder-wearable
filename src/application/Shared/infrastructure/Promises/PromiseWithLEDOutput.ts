@@ -5,7 +5,7 @@ import StatusLeds from '../GPiO/components/StatusLeds';
 export default class PromiseWithLEDOutput<T = any> {
     private readonly promise?: Promise<T>;
     //LEDS
-    private readonly statusLeds: StatusLeds;
+    public readonly statusLeds: StatusLeds;
 
     constructor(executor?: Executor<T>) {
         if(executor)

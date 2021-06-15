@@ -15,17 +15,20 @@ export default class PanicAlertApp extends App {
     }
 
     public start = async () => {
-        const pushButton = new PushButton(18);
+        const pushButton = new PushButton(21);
         pushButton.onPress(async () => {
             try {
-                new PromiseWithLEDOutput()
+                //We execute the location service
+                const location = await new GetLocation().run();
+                const promiseWithLEDs = new PromiseWithLEDOutput();
+                promiseWithLEDs
                     .executeAsyncCallback(async () => {
-                    //We execute the location service
-                    const location = await new GetLocation().run();
                     //We record the audio
                     await new PanicAudioRecorder(
                         this.logger
                     ).run();
+                    //We turn off the status LEDs, because the pending LED is to indicate the recording process
+                    promiseWithLEDs.statusLeds.turnAllOff();
                     //We send the panic alert
                     await new SendPanicAlert(
                         this.logger,

@@ -12,7 +12,7 @@ class StatusLeds {
             this.failureLed.turnOff();
         };
         this.success = (timeOn) => this.successLed.turnOnByTime(timeOn);
-        this.pending = (timeOn) => this.pendingLed.turnOnByTime(timeOn);
+        this.pending = () => this.pendingLed.turnOn();
         this.failure = (timeOn) => this.failureLed.turnOnByTime(timeOn);
         this.successLed = new Led_1.default(successLedPin);
         this.pendingLed = new Led_1.default(pendingLedPin);

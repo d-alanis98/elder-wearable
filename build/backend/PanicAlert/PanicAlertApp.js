@@ -24,15 +24,18 @@ class PanicAlertApp extends App_1.default {
     constructor() {
         super(PanicAlertApp.name);
         this.start = () => __awaiter(this, void 0, void 0, function* () {
-            const pushButton = new PushButton_1.default(18);
+            const pushButton = new PushButton_1.default(21);
             pushButton.onPress(() => __awaiter(this, void 0, void 0, function* () {
                 try {
-                    new PromiseWithLEDOutput_1.default()
+                    //We execute the location service
+                    const location = yield new GetLocation_1.default().run();
+                    const promiseWithLEDs = new PromiseWithLEDOutput_1.default();
+                    promiseWithLEDs
                         .executeAsyncCallback(() => __awaiter(this, void 0, void 0, function* () {
-                        //We execute the location service
-                        const location = yield new GetLocation_1.default().run();
                         //We record the audio
                         yield new PanicAudioRecorder_1.default(this.logger).run();
+                        //We turn off the status LEDs, because the pending LED is to indicate the recording process
+                        promiseWithLEDs.statusLeds.turnAllOff();
                         //We send the panic alert
                         yield new SendPanicAlert_1.default(this.logger, location).run();
                     }));

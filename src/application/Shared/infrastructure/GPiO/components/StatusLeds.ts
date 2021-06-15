@@ -24,7 +24,7 @@ export default class StatusLeds {
 
     success = (timeOn?: number) => this.successLed.turnOnByTime(timeOn);
 
-    pending = (timeOn?: number) => this.pendingLed.turnOnByTime(timeOn);
+    pending = () => this.pendingLed.turnOn();
 
     failure = (timeOn?: number) => this.failureLed.turnOnByTime(timeOn);
 }
