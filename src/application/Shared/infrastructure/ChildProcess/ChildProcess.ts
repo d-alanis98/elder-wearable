@@ -27,7 +27,7 @@ export default class CommandExecutor {
     private childProcessResolution = (child: ChildProcess) => new Promise<void>((resolve, reject)  => {
         child.addListener('error', reject);
         child.addListener('exit', (code, _) => (
-            code === 0 ? resolve() : reject()
+            code === 0 ? resolve() : reject(new Error(`Exited woth code ${ code }`))
         ));
     });
 }

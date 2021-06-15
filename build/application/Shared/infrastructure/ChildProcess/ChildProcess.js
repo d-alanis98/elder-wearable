@@ -29,7 +29,7 @@ class CommandExecutor {
         };
         this.childProcessResolution = (child) => new Promise((resolve, reject) => {
             child.addListener('error', reject);
-            child.addListener('exit', (code, _) => (code === 0 ? resolve() : reject()));
+            child.addListener('exit', (code, _) => (code === 0 ? resolve() : reject(new Error(`Exited woth code ${code}`))));
         });
         this.result = '';
         this.command = command;
