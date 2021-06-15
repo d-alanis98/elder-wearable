@@ -1,3 +1,5 @@
+import FormData from 'form-data';
+import { readFile } from 'fs/promises';
 //Domain
 import PanicAlert from '../domain/PanicAlert';
 import Geolocation from '../../Geolocation/domain/Geolocation';
@@ -21,9 +23,35 @@ export default class SendPanicAlert {
     }
 
     public run = async () => {
+        const formData = await this.getFormData();
         await new IoTDeviceDataAPI(this.logger).postData(
             'PanicAlert',
-            this.panicAlert.toPrimitives()
+            formData,
+            { 
+                headers: {
+                    ...formData.getHeaders(),
+                } 
+            }
         );
+    }
+
+    private getAudio = async (): Promise<Buffer> => (
+        await readFile('/home/pi/.tmp/sample.wav')
+    )
+
+    private getLocationInBlob = () => {
+        const serialized = JSON.stringify(
+            this.panicAlert.toPrimitives().location
+        );
+        return new Blob([serialized], {
+            type: 'application/json'
+        });
+    }
+
+    private getFormData = async () => {
+        const formData = new FormData();
+        formData.append('location', this.getLocationInBlob());
+        formData.append('audioFile', await this.getAudio(), 'audio.wav');
+        return formData;
     }
 }

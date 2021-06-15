@@ -1,3 +1,5 @@
+import FormData from 'form-data';
+import { AxiosRequestConfig } from 'axios';
 //Domain
 import Logger from '../../domain/Logger/Logger';
 //Request manager
@@ -11,14 +13,19 @@ export default class IoTDeviceDataAPI {
         this.logger = logger;
     }
 
-    public postData = async (key: string, data: IoTDeviceDataRequest) => {
+    public postData = async (
+        key: string, 
+        data: IoTDeviceDataRequest, 
+        configuration?: AxiosRequestConfig
+    ) => {
         try {
             const response = await AxiosRequest.post(
                 '/iot/device/data',
                 { 
                     key, 
                     value: data
-                }
+                },
+                configuration
             );
             const deviceDataCreated = response.data;
             this.logger.info(`[${ deviceDataCreated.key }] data sent successfully.`);
@@ -28,4 +35,4 @@ export default class IoTDeviceDataAPI {
     }
 }
 
-type IoTDeviceDataRequest = string | Object;
+type IoTDeviceDataRequest = FormData | Object ;

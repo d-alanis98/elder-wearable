@@ -12,24 +12,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-//Request manager
-const AxiosRequest_1 = __importDefault(require("./AxiosRequest"));
-class IoTDeviceDataAPI {
-    constructor(logger) {
-        this.postData = (key, data, configuration) => __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield AxiosRequest_1.default.post('/iot/device/data', {
-                    key,
-                    value: data
-                }, configuration);
-                const deviceDataCreated = response.data;
-                this.logger.info(`[${deviceDataCreated.key}] data sent successfully.`);
-            }
-            catch (error) {
-                this.logger.error(error.message);
-            }
+const ChildProcess_1 = __importDefault(require("../../Shared/infrastructure/ChildProcess/ChildProcess"));
+class PanicAudioRecorder {
+    constructor() {
+        this.run = () => __awaiter(this, void 0, void 0, function* () {
+            yield this.executeRecording();
         });
-        this.logger = logger;
+        this.executeRecording = () => __awaiter(this, void 0, void 0, function* () {
+            yield new ChildProcess_1.default('arecord -d 5 -f cd .tmp/temp.wav')
+                .execute();
+        });
     }
 }
-exports.default = IoTDeviceDataAPI;
+exports.default = PanicAudioRecorder;

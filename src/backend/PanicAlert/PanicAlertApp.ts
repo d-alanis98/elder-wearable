@@ -5,6 +5,7 @@ import GetLocation from '../../application/Geolocation/application/GetLocation';
 import PushButton from '../../application/Shared/infrastructure/GPiO/components/PushButton';
 import App from '../App';
 import PromiseWithLEDOutput from '../../application/Shared/infrastructure/Promises/PromiseWithLEDOutput';
+import PanicAudioRecorder from '../../application/PanicAlert/application/PanicAudioRecorder';
 
 
 export default class PanicAlertApp extends App {
@@ -21,6 +22,8 @@ export default class PanicAlertApp extends App {
                     .executeAsyncCallback(async () => {
                     //We execute the location service
                     const location = await new GetLocation().run();
+                    //We record the audio
+                    await new PanicAudioRecorder().run();
                     //We send the panic alert
                     await new SendPanicAlert(
                         this.logger,
