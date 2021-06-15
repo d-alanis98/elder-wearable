@@ -19,10 +19,16 @@ class PanicAudioRecorder {
             yield this.executeRecording();
         });
         this.executeRecording = () => __awaiter(this, void 0, void 0, function* () {
-            this.logger.info('Recording audio');
-            yield new ChildProcess_1.default('arecord -d 5 -f cd .tmp/temp.wav')
-                .execute();
-            this.logger.info('Audio recorded');
+            try {
+                this.logger.info('Recording audio');
+                yield new ChildProcess_1.default('arecord -d 5 -f cd .tmp/temp.wav')
+                    .execute();
+                this.logger.info('Audio recorded');
+            }
+            catch (error) {
+                this.logger.error(error.message);
+                process.exit(1);
+            }
         });
         this.logger = logger;
     }

@@ -16,9 +16,14 @@ export default class PanicAudioRecorder {
     };
 
     private executeRecording = async () => {
-        this.logger.info('Recording audio')
-        await new CommandExecutor('arecord -d 5 -f cd .tmp/temp.wav')
-            .execute()
-        this.logger.info('Audio recorded')
+        try {
+            this.logger.info('Recording audio')
+            await new CommandExecutor('arecord -d 5 -f cd .tmp/temp.wav')
+                .execute()
+            this.logger.info('Audio recorded')
+        } catch(error) {
+            this.logger.error(error.message);
+            process.exit(1);
+        }
     };
 }
